@@ -4,9 +4,9 @@ import numpy as np
 a = np.array([7.5, 8, 8.5, 9, 9.5])
 
 # столбцы матрицы затрат
-b_c = np.array([7, 8, 9, 10, 5])
-c_c = np.array([2, 1, 6, 7, 3])
-d_c = np.array([2, 3, 2, 1, 1])
+b_cost = np.array([7, 8, 9, 10, 5])
+c_cost = np.array([2, 1, 6, 7, 3])
+d_cost = np.array([2, 3, 2, 1, 1])
 
 # столбцы матрицы времени
 b_t = np.array([3, 6, 7, 8, 9])
@@ -14,7 +14,7 @@ c_t = np.array([2, 5, 6, 7, 8])
 d_t = np.array([9, 10, 11, 12, 5])
 
 #составление матриц затрат и времени
-c_matrix = np.transpose(np.array([a, b_c, c_c, d_c]))
+c_matrix = np.transpose(np.array([a, b_cost, c_cost, d_cost]))
 t_matrix = np.transpose(np.array([a, b_t, c_t, d_t]))
 
 dim1 = np.shape(c_matrix)[0]
@@ -29,15 +29,15 @@ restricted = dict()
 
 #сортировка по ресурсу и времени
 for i in range(dim1):
-  control_c = min(c_matrix[i])
-  print(control_c)
-  j_find = np.where(c_matrix == control_c)[1]
+  control_cost = min(c_matrix[i])
+  print(control_cost)
+  j_find = np.where(c_matrix == control_cost)[1]
   control_t = t_matrix[i][j_find]
   print(control_t)
   for j in range(dim2):
     print(c_matrix[i][j])
     print(t_matrix[i][j])
-    if ((control_c <= c_matrix[i][j]) and (control_t < t_matrix[i][j])):
+    if ((control_cost <= c_matrix[i][j]) and (control_t < t_matrix[i][j])):
       restricted.update({(i, j) : False})
 
 # DEBAG2
