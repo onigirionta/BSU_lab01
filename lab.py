@@ -14,30 +14,30 @@ c_time = np.array([2, 5, 6, 7, 8])
 d_time = np.array([9, 10, 11, 12, 5])
 
 #составление матриц затрат и времени
-c_matrix = np.transpose(np.array([a, b_cost, c_cost, d_cost]))
-t_matrix = np.transpose(np.array([a, b_time, c_time, d_time]))
+cost_matrix = np.transpose(np.array([a, b_cost, c_cost, d_cost]))
+time_matrix = np.transpose(np.array([a, b_time, c_time, d_time]))
 
-dim1 = np.shape(c_matrix)[0]
-dim2 = np.shape(c_matrix)[1]
-t_border = 20.0
+dim1 = np.shape(cost_matrix)[0]
+dim2 = np.shape(cost_matrix)[1]
+time_border = 20.0
 
 # DEBAG1
-#print(np.where(c_matrix == 9.5)[0])
+#print(np.where(cost_matrix == 9.5)[0])
 
 #словарь отфильтрованных элементов
 restricted = dict()
 
 #сортировка по ресурсу и времени
 for i in range(dim1):
-  control_cost = min(c_matrix[i])
+  control_cost = min(cost_matrix[i])
   print(control_cost)
-  j_find = np.where(c_matrix == control_cost)[1]
-  control_time = t_matrix[i][j_find]
+  j_find = np.where(cost_matrix == control_cost)[1]
+  control_time = time_matrix[i][j_find]
   print(control_time)
   for j in range(dim2):
-    print(c_matrix[i][j])
-    print(t_matrix[i][j])
-    if ((control_cost <= c_matrix[i][j]) and (control_time < t_matrix[i][j])):
+    print(cost_matrix[i][j])
+    print(time_matrix[i][j])
+    if ((control_cost <= cost_matrix[i][j]) and (control_time < time_matrix[i][j])):
       restricted.update({(i, j) : False})
 
 # DEBAG2
@@ -49,10 +49,10 @@ for i in range(dim1):
   
   #очень тупая проверка
   for j in range(dim1):
-    add = min(t_matrix[j])
+    add = min(time_matrix[j])
     control_summ_time += add
-    coord = np.where(t_matrix == add)
-  if control_summ_time > t_border:
+    coord = np.where(time_matrix == add)
+  if control_summ_time > time_border:
     print(f'Оптимальное решение в данном случае: t = {control_summ_time}, что больше максимального порога времени')
     quit()
   #отбор неотсортированного ближайшего элемента внутри строки
@@ -61,9 +61,9 @@ for i in range(dim1):
       control_j_counter += 1
       pass
     else:
-      control_time = t_matrix[i][j]
+      control_time = time_matrix[i][j]
       break
   #пробег по элементам
-  for j in range(np.shape(t_matrix)[1]):
+  for j in range(np.shape(time_matrix)[1]):
     if j == control_j_counter:
       j += 1
