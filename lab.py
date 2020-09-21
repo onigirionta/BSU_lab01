@@ -21,27 +21,33 @@ dim1 = np.shape(cost_matrix)[0]
 dim2 = np.shape(cost_matrix)[1]
 time_border = 20.0
 
-# DEBAG1
+#DEBAG1
 #print(np.where(cost_matrix == 9.5)[0])
 
 #словарь отфильтрованных элементов
 restricted = dict()
 
 #сортировка по ресурсу и времени
+#DEBAG2
+print(f'Costs matrix:\n{cost_matrix}')
+print(f'Times matrix:\n{time_matrix}')
+
 for i in range(dim1):
-  control_cost = min(cost_matrix[i])
-  print(control_cost)
-  j_find = np.where(cost_matrix == control_cost)[1]
-  control_time = time_matrix[i][j_find]
-  print(control_time)
+  control_minimal_cost = min(cost_matrix[i])
+  print(f'***control_minimal_cost = {control_minimal_cost}***')
+  mid_term = np.where(cost_matrix == control_minimal_cost)
+  j_find = mid_term[1][mid_term[0] == i][0]
+  print(f"***j_find = {j_find}***")
+  control_matching_time = time_matrix[i][j_find]
+  print(f'***control_matching_time = {control_matching_time}***')
   for j in range(dim2):
-    print(cost_matrix[i][j])
-    print(time_matrix[i][j])
-    if ((control_cost <= cost_matrix[i][j]) and (control_time < time_matrix[i][j])):
+    print(f'control cost elem = {cost_matrix[i][j]}')
+    print(f'control time elem = {time_matrix[i][j]}')
+    if ((control_minimal_cost <= cost_matrix[i][j]) and (control_matching_time < time_matrix[i][j])):
       restricted.update({(i, j) : False})
 
-# DEBAG2
-#print(restricted.keys())
+#DEBAG3
+print(restricted)
 
 #сортировка по времени
 for i in range(dim1):
@@ -61,7 +67,7 @@ for i in range(dim1):
       control_j_counter += 1
       pass
     else:
-      control_time = time_matrix[i][j]
+      control_matching_time = time_matrix[i][j]
       break
   #пробег по элементам
   for j in range(np.shape(time_matrix)[1]):
